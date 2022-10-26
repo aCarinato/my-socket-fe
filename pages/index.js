@@ -35,32 +35,25 @@ function HomePage() {
   const [connectedUsers, setConnectedUsers] = useState([]);
   const [messages, setMessages] = useState([]);
 
-  useEffect(() => {
-    if (!socket.current) {
-      socket.current = io(`${process.env.NEXT_PUBLIC_SOCKET_URL}`);
-    }
+  // useEffect(() => {
+  //   if (!socket.current) {
+  //     socket.current = io(`${process.env.NEXT_PUBLIC_SOCKET_URL}`);
+  //   }
 
-    if (socket.current) {
-      // if (authState && authState.username !== '') {
-      if (isLoggedIn) {
-        // console.log('let us do it');
-        socket.current.emit('join', { userId: authState.userId });
+  //   if (socket.current) {
+  //     if (isLoggedIn) {
 
-        // socket.current.on('connectedUsers', ({ users }) => {
-        //   users.length > 0 && setConnectedUsers(users);
-        // });
-      }
-    }
-  }, [isLoggedIn]);
-  // }, [authState && authState.username]);
+  //       socket.current.emit('join', { userId: authState.userId });
+  //     }
+  //   }
+  // }, [isLoggedIn]);
 
   const handleLogout = () => {
     if (socket.current) {
       // if (authState && authState.username !== '') {
-      if (isLoggedIn) {
-        // console.log('let us do it');
-        socket.current.emit('leave', { userId: authState.userId });
-      }
+      // if (isLoggedIn) {
+      //   socket.current.emit('leave', { userId: authState.userId });
+      // }
     }
 
     localStorage.removeItem('user-auth');
@@ -76,32 +69,31 @@ function HomePage() {
   // SENDING MSG VIA SOCKET - SIMPLE EXAMPLE
   const [msg, setMsg] = useState('');
 
-  const sendMsg = () => {
-    if (socket.current) {
-      if (msg.length > 0) {
-        socket.current.emit('sendMsg', msg);
-      }
-    }
-    setMsg('');
-  };
+  // const sendMsg = () => {
+  //   if (socket.current) {
+  //     if (msg.length > 0) {
+  //       socket.current.emit('sendMsg', msg);
+  //     }
+  //   }
+  //   setMsg('');
+  // };
 
-  useEffect(() => {
-    if (socket.current) {
-      socket.current.on('sendMsg', (msg) => {
-        // console.log('sto dentro on.sendMsg');
-        let tempMsg = messages;
+  // useEffect(() => {  // TEST socket on vercel
+  //   if (socket.current) {
+  //     socket.current.on('sendMsg', (msg) => {
+  //       let tempMsg = messages;
 
-        tempMsg.push(msg);
-        setMessages(tempMsg);
-      });
+  //       tempMsg.push(msg);
+  //       setMessages(tempMsg);
+  //     });
 
-      socket.current.on('connectedUsers', ({ users }) => {
-        // users.length > 0 && setConnectedUsers(users);
-        setConnectedUsers(users);
-      });
-      // }
-    }
-  }, []);
+  //     socket.current.on('connectedUsers', ({ users }) => {
+  //       // users.length > 0 && setConnectedUsers(users);
+  //       setConnectedUsers(users);
+  //     });
+  //     // }
+  //   }
+  // }, []);
 
   return (
     <div>
@@ -112,7 +104,7 @@ function HomePage() {
           <p>Current user: {authState.username}</p> <br></br>
           <button onClick={handleLogout}>Log Out</button>
           <br></br>
-          {connectedUsers.map((user) => (
+          {/* {connectedUsers.map((user) => (
             <div key={user.userId}>{user.userId}</div>
           ))}
           <br></br>
@@ -128,7 +120,7 @@ function HomePage() {
             {messages.map((message, idx) => (
               <div key={idx}>{message}</div>
             ))}
-          </div>
+          </div> */}
         </div>
       ) : (
         <div>

@@ -25,6 +25,7 @@ function LoginPage() {
           password,
         }
       );
+      console.log(`${process.env.NEXT_PUBLIC_API}/auth/login`);
       localStorage.setItem(
         'user-auth',
         JSON.stringify({
