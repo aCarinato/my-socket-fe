@@ -50,9 +50,9 @@ function HomePage() {
   const handleLogout = () => {
     if (socket.current) {
       // if (authState && authState.username !== '') {
-      // if (isLoggedIn) {
-      //   socket.current.emit('leave', { userId: authState.userId });
-      // }
+      if (isLoggedIn) {
+        socket.current.emit('leave', { userId: authState.userId });
+      }
     }
 
     localStorage.removeItem('user-auth');
@@ -77,22 +77,23 @@ function HomePage() {
   //   setMsg('');
   // };
 
-  // useEffect(() => {  // TEST socket on vercel
-  //   if (socket.current) {
-  //     socket.current.on('sendMsg', (msg) => {
-  //       let tempMsg = messages;
+  useEffect(() => {
+    // TEST socket on vercel
+    if (socket.current) {
+      // socket.current.on('sendMsg', (msg) => {
+      //   let tempMsg = messages;
 
-  //       tempMsg.push(msg);
-  //       setMessages(tempMsg);
-  //     });
+      //   tempMsg.push(msg);
+      //   setMessages(tempMsg);
+      // });
 
-  //     socket.current.on('connectedUsers', ({ users }) => {
-  //       // users.length > 0 && setConnectedUsers(users);
-  //       setConnectedUsers(users);
-  //     });
-  //     // }
-  //   }
-  // }, []);
+      socket.current.on('connectedUsers', ({ users }) => {
+        // users.length > 0 && setConnectedUsers(users);
+        setConnectedUsers(users);
+      });
+      // }
+    }
+  }, []);
 
   return (
     <div>
@@ -103,11 +104,11 @@ function HomePage() {
           <p>Current user: {authState.username}</p> <br></br>
           <button onClick={handleLogout}>Log Out</button>
           <br></br>
-          {/* {connectedUsers.map((user) => (
+          {connectedUsers.map((user) => (
             <div key={user.userId}>{user.userId}</div>
           ))}
           <br></br>
-          <div>
+          {/* <div>
             <label>Type something</label>
             <input
               type="text"
