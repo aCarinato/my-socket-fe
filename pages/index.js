@@ -68,24 +68,24 @@ function HomePage() {
   // SENDING MSG VIA SOCKET - SIMPLE EXAMPLE
   const [msg, setMsg] = useState('');
 
-  // const sendMsg = () => {
-  //   if (socket.current) {
-  //     if (msg.length > 0) {
-  //       socket.current.emit('sendMsg', msg);
-  //     }
-  //   }
-  //   setMsg('');
-  // };
+  const sendMsg = () => {
+    if (socket.current) {
+      if (msg.length > 0) {
+        socket.current.emit('sendMsg', msg);
+      }
+    }
+    setMsg('');
+  };
 
   useEffect(() => {
     // TEST socket on vercel
     if (socket.current) {
-      // socket.current.on('sendMsg', (msg) => {
-      //   let tempMsg = messages;
+      socket.current.on('sendMsg', (msg) => {
+        let tempMsg = messages;
 
-      //   tempMsg.push(msg);
-      //   setMessages(tempMsg);
-      // });
+        tempMsg.push(msg);
+        setMessages(tempMsg);
+      });
 
       socket.current.on('connectedUsers', ({ users }) => {
         // users.length > 0 && setConnectedUsers(users);
@@ -108,7 +108,7 @@ function HomePage() {
             <div key={user.userId}>{user.userId}</div>
           ))}
           <br></br>
-          {/* <div>
+          <div>
             <label>Type something</label>
             <input
               type="text"
@@ -120,7 +120,7 @@ function HomePage() {
             {messages.map((message, idx) => (
               <div key={idx}>{message}</div>
             ))}
-          </div> */}
+          </div>
         </div>
       ) : (
         <div>
