@@ -35,18 +35,17 @@ function HomePage() {
   const [connectedUsers, setConnectedUsers] = useState([]);
   const [messages, setMessages] = useState([]);
 
-  // useEffect(() => {
-  //   if (!socket.current) {
-  //     socket.current = io(`${process.env.NEXT_PUBLIC_SOCKET_URL}`);
-  //   }
+  useEffect(() => {
+    if (!socket.current) {
+      socket.current = io(`${process.env.NEXT_PUBLIC_SOCKET_URL}`);
+    }
 
-  //   if (socket.current) {
-  //     if (isLoggedIn) {
-
-  //       socket.current.emit('join', { userId: authState.userId });
-  //     }
-  //   }
-  // }, [isLoggedIn]);
+    if (socket.current) {
+      if (isLoggedIn) {
+        socket.current.emit('join', { userId: authState.userId });
+      }
+    }
+  }, [isLoggedIn]);
 
   const handleLogout = () => {
     if (socket.current) {
