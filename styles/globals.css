@@ -1,0 +1,61 @@
+/* GRID LAYOUT */
+.grid {
+  display: grid;
+  gap: 2.4rem;
+  grid-template-columns: 25% 75%;
+}
+
+/* .grid---2cols-20-80 {
+    grid-template-columns: 15% 85%;
+  } */
+
+.chat-card {
+  border: 1px solid rgb(0, 0, 0);
+  padding: 1rem;
+  margin: 1rem 0;
+  cursor: pointer;
+}
+
+.user-card {
+  width: 10rem;
+  border: 1px solid rgb(0, 0, 0);
+  padding: 1rem;
+  margin: 1rem 0;
+  cursor: pointer;
+}
+
+.user-online {
+  color: green;
+}
+
+.user-offline {
+  color: red;
+}
+
+.msg {
+  display: flex;
+  width: 90%;
+  /* border: 1px solid rgb(0, 0, 0); */
+  padding: 1rem;
+  margin: 1rem;
+  /* cursor: pointer; */
+}
+
+.own-msg {
+  display: flex;
+  width: 90%;
+  /* border: 1px solid rgb(0, 0, 0); */
+  padding: 1rem;
+  margin: 1rem;
+  justify-content: flex-end;
+  /* text-align: right; */
+  /* cursor: pointer; */
+}
+
+.p-msg {
+  width: fit-content;
+  /* width: 30%; */
+  border: 1px solid rgb(0, 0, 0);
+  padding: 1rem;
+  /* margin: 1rem; */
+}

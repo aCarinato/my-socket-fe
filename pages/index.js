@@ -1,6 +1,8 @@
 import axios from 'axios';
 import io from 'socket.io-client';
 import { useEffect, useState, useRef } from 'react';
+// Udemy
+import getUserInfo from '../utils/getUserInfo';
 
 function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -35,6 +37,9 @@ function HomePage() {
   const [connectedUsers, setConnectedUsers] = useState([]);
   const [messages, setMessages] = useState([]);
 
+  // Udemy
+  // const [newMessageReceived, setNewMessageReceived] = useState([]);
+
   useEffect(() => {
     if (!socket.current) {
       socket.current = io(`${process.env.NEXT_PUBLIC_SOCKET_URL}`);
@@ -43,6 +48,13 @@ function HomePage() {
     if (socket.current) {
       if (isLoggedIn) {
         socket.current.emit('join', { userId: authState.userId });
+
+        // for Udemy app
+        // socket.current.on('newMsgReceived', async ({ newMsg }) => {
+        //   const { username } = await getUserInfo(newMsg.sender);
+
+        //   if (user.)
+        // });
       }
     }
   }, [isLoggedIn]);
@@ -98,6 +110,9 @@ function HomePage() {
   return (
     <div>
       <h1>Simple Chat Socket.io</h1>
+      <div>
+        <a href="/messages">Go to Messages page</a>
+      </div>
 
       {isLoggedIn ? (
         <div>
