@@ -13,7 +13,7 @@ function MessagesPage() {
   const [messages, setMessages] = useState([]);
 
   const [notifications, setNotifications] = useState([]);
-  const [unreadNotifications, setUnreadNotifications] = useState(0);
+  //   const [unreadNotifications, setUnreadNotifications] = useState(0);
 
   // This ref is for persisting the state of query string in url throughout re-renders. This ref is the value of query string inside url
   const openChatId = useRef();
@@ -28,6 +28,26 @@ function MessagesPage() {
     // email: '',
     token: '',
   });
+
+  useEffect(() => {
+    const handleRouteChange = (url, { shallow }) => {
+      // console.log(
+      //   `App is changing to ${url} ${
+      //     shallow ? 'with' : 'without'
+      //   } shallow routing`
+      // );
+
+      if (!url.includes('messages?message=')) openChatId.current = '';
+    };
+
+    router.events.on('routeChangeStart', handleRouteChange);
+
+    // If the component is unmounted, unsubscribe
+    // from the event with the `off` method:
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange);
+    };
+  }, []);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -186,7 +206,7 @@ function MessagesPage() {
       setMsgToSend('');
     }
   };
-
+  console.log(openChatId);
   // Confirming msg is sent and receving the messages useEffect
   useEffect(() => {
     if (socket.current) {
@@ -208,9 +228,12 @@ function MessagesPage() {
 
       socket.current.on('newMsgReceived', async ({ newMsg }) => {
         //     let senderName;
-
+        // console.log(openChatId.current);
         // WHEN CHAT WITH SENDER IS CURRENTLY OPENED INSIDE YOUR BROWSER
         if (newMsg.sender === openChatId.current) {
+          console.log(
+            `newMsg.sender: ${newMsg.sender}, openChatId.current: ${openChatId.current} - SIAMO QUA - NIENTE NOTIFICATION`
+          );
           setMessages((prev) => [...prev, newMsg]);
           setChats((prev) => {
             const previousChat = prev.find(
@@ -224,6 +247,9 @@ function MessagesPage() {
         }
         //  THE USER IS NOT CURRENTLY ON THE CHAT ONLINE
         else {
+          console.log(
+            `newMsg.sender: ${newMsg.sender}, openChatId.current: ${openChatId.current} - SIAMO QUA - VAI DI NOTIFICATION`
+          );
           const { username } = await getUserInfo(newMsg.sender);
           const newChat = {
             messagesWith: newMsg.sender,
@@ -338,6 +364,8 @@ function MessagesPage() {
   return (
     <div>
       <h1>Chats</h1>
+      <br></br>
+      <a href="/">home</a>
       <br></br>
       <h2>Users</h2>
       <>
